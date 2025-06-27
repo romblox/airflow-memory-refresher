@@ -5,7 +5,7 @@ from datetime import datetime
 
 with DAG(
     dag_id="dynamic_dag_get_price_{{dag_id | lower}}",
-    start_date=datetime(2025, 6, 26),
+    start_date=datetime(2025, 6, 27),
     schedule="{{schedule}}",
     catchup={{catchup or False}},
 ) as dag:
