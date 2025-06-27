@@ -43,3 +43,41 @@ airflow tasks test user_processing is_api_available
 airflow tasks test user_processing extract_user
 airflow tasks test user_processing process_user
 ```
+
+## Dynamic DAGs  
+
+### Configurattin .yaml files  
+```text
+imclude/
+  ├── config_appl.yaml
+  ├── config_fbl.yaml
+  └── config_googl.yaml
+  
+```
+
+### DAG template  
+```text
+dags/
+  └── dag_template.jinja2
+```
+
+### Geneerating script
+```text
+dags/
+  └── dag_generator.py
+```
+
+### Generate Dynamic DAGs  
+```sh
+# Makefile
+make apply-dynamic-dag
+
+# Python script
+python include/scripts/dag_generator.py
+```
+
+## Generate dynamic DAGs  
+![05.png](img/05.png)
+
+### DAGs in Airflow UI
+![06.png](img/06.png)

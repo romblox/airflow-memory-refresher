@@ -1,0 +1,4 @@
+dag_id: "GOOGLE"
+schedule: "@weekly"
+catchup: false
+input: 3422
