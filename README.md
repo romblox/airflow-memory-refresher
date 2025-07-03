@@ -81,3 +81,10 @@ python include/scripts/dag_generator.py
 
 ### DAGs in Airflow UI
 ![06.png](img/06.png)
+
+
+## Install additional dependencies into Docker containers for deelopment purposes  
+
+```shell
+_PIP_ADDITIONAL_REQUIREMENTS="pandas==2.0.0 scikit-learn==1.2.0" docker compose up
+```
