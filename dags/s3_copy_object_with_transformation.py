@@ -48,9 +48,8 @@ def s3_copy_with_transformation_example():
         source_s3_key="s3://s3-shkiper-private/images/YYachts-Y7n.jpg",
         dest_s3_key="s3://s3-shkiper-private-destination/dump/YYachts-Y7n.jpg.zip",
         transform_script=(str(DAGS_DIR / 'zip_transform.py')),
-        # Python script that performs the ZIP operation
+        script_args=["YYachts-Y7n.jpg", 'hello.txt'],
         replace=True,
-        # aws_conn_id='aws-free-tier',
         source_aws_conn_id='aws-free-tier',
         dest_aws_conn_id='aws-free-tier',
     )
