@@ -49,6 +49,12 @@ def xml_to_json(xml_content):
         print(f"Error converting XML to JSON: {e}")
         return {"error": str(e)}
 
+# import xmltodict
+# dev dependency for checking xmltodict output
+# need to install xmltodict into Docker image before uncommenting
+# def xml_to_json(xml_content):
+#     return xmltodict.parse(xml_content)
+
 def process_files(source_path, destination_path, *script_args):
     print("="*100)
     print("Processing ZIP file from S3")
@@ -80,7 +86,7 @@ def process_files(source_path, destination_path, *script_args):
                 # Convert XML to JSON
                 json_content = xml_to_json(xml_content)
 
-                # Create JSON file
+                # Create a JSON file
                 json_filename = os.path.splitext(filename)[0] + '.json'
                 json_path = os.path.join(temp_dir, json_filename)
 
