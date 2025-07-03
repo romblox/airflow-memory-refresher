@@ -71,7 +71,7 @@ def s3_unzip_convert_xml_to_json_rezip():
 
     # Create dynamic tasks for each file
     @task
-    def process_files(file_paths: List[dict]) -> None:
+    def process_files(file_paths: List[dict]) -> List[dict]:
         """
         Create a transformation task for each zip file
         """
@@ -90,6 +90,7 @@ def s3_unzip_convert_xml_to_json_rezip():
 
             # Execute the task
             transform_task.execute(context={})
+        return file_paths
 
     @task
     def confirm_completion(file_paths: List[dict]) -> str:
@@ -100,7 +101,7 @@ def s3_unzip_convert_xml_to_json_rezip():
     # Set up the task dependencies
     file_paths = prepare_file_paths(list_files.output)
     process_result = process_files(file_paths)
-    confirmation = confirm_completion(file_paths)
+    confirmation = confirm_completion(process_result)
 
     # Define the workflow
     list_files >> file_paths >> process_result >> confirmation
