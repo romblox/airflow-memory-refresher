@@ -1,6 +1,8 @@
 from datetime import datetime
 from airflow.decorators import dag, task
-from airflow.providers.amazon.aws.operators.s3 import S3CopyObjectOperator
+from airflow.providers.amazon.aws.operators.s3 import S3CopyObjectOperator, S3FileTransformOperator
+
+from constants import DAGS_DIR
 
 
 @dag(
@@ -40,7 +42,20 @@ def s3_copy_with_transformation_example():
     #     aws_conn_id='aws-free-tier',
     # )
 
-    # Example of a task after copy operation
+    # Copy with ZIP transformation
+    zip_transform = S3FileTransformOperator(
+        task_id="zip_file_transform",
+        source_s3_key="s3://s3-shkiper-private/images/YYachts-Y7n.jpg",
+        dest_s3_key="s3://s3-shkiper-private-destination/dump/YYachts-Y7n.jpg.zip",
+        transform_script=(str(DAGS_DIR / 'zip_transform.py')),
+        # Python script that performs the ZIP operation
+        replace=True,
+        # aws_conn_id='aws-free-tier',
+        source_aws_conn_id='aws-free-tier',
+        dest_aws_conn_id='aws-free-tier',
+    )
+
+    # Example of a task after a copy operation
     @task
     def confirm_copy():
         """Confirm copy operation completed"""
@@ -52,7 +67,7 @@ def s3_copy_with_transformation_example():
     confirmation = confirm_copy()
 
     # Define the workflow
-    preparation >> copy_object >> confirmation
+    preparation >> zip_transform >> confirmation
 
 # Instantiate the DAG
-s3_copy_dag_instance = s3_copy_dag()
+s3_copy_dag_instance = s3_copy_with_transformation_example()
