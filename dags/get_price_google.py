@@ -4,10 +4,10 @@ from datetime import datetime
 
 
 with DAG(
-    dag_id="dynamic_dag_get_price_{{dag_id | lower}}",
+    dag_id="dynamic_dag_get_price_google",
     start_date=datetime(2025, 6, 27),
-    schedule="{{schedule}}",
-    catchup={{catchup or False}},
+    schedule="@weekly",
+    catchup=False,
 ) as dag:
     @task
     def extract(stock):
@@ -25,4 +25,4 @@ with DAG(
         print(f"Sending email with stock: {stock}")
         return stock
 
-    send_email(process(extract("{{input}}")))
+    send_email(process(extract("3422")))
