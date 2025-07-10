@@ -10,15 +10,16 @@ from airflow.sdk import dag, task
 # )
 @dag
 def celery_test_dag():
-    @task
+    @task()
     def a():
         sleep(2)
 
-    @task
+    @task()
     def b():
         sleep(5)
 
-    @task(queue="high_cpu_queue")
+    # @task(queue="high_cpu_queue")
+    @task()
     def c():
         sleep(5)
 
@@ -26,15 +27,14 @@ def celery_test_dag():
     def d():
         sleep(5)
 
-    @task
+    @task()
     def e():
         sleep(5)
 
-    @task(queue="high_cpu_queue")
+    # @task(queue="high_cpu_queue")
+    @task()
     def f():
         sleep(2)
-
-
 
     a() >> [b(), c(), d(), e()] >> f()
 
